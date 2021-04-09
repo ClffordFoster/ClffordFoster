@@ -2,7 +2,6 @@
 const { db } = require("./db");
 const uuidV4 = require('uuid').v4; 
 
-
 class CharacterModel {
     constructor (db) {
         this.db = db;
