@@ -24,4 +24,6 @@ class CharacterModel {
         } catch (err) {          // if there was any error
             console.error(err);  // then log it
             return false;        // return false to indicate failure
-     
+        }
+    }
+}
