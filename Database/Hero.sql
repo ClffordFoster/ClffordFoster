@@ -1,8 +1,8 @@
-CREATE TABLE IF NOT EXISTS Users (
-    userID TEXT PRIMARY KEY,
-    username TEXT UNIQUE NOT NULL,
+CREATE TABLE IF NOT EXISTS Players (
+    PlayerID TEXT PRIMARY KEY,
+    Playername TEXT UNIQUE NOT NULL,
     passwordHash TEXT NOT NULL,
-    role INTEGER NOT NULL DEFAULT 0, -- default to "user" role
+    role INTEGER NOT NULL DEFAULT 0, -- default to "Player" role
     email TEXT UNIQUE NOT NULL,
     didVerifyEmail BOOLEAN NOT NULL DEFAULT 0 -- defaults to unverified
 );
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS Characters (
     -- Identifer's 
     name TEXT NOT NULL,
     characterID TEXT PRIMARY KEY,
-    FOREIGN KEY (userID) REFERENCES Users(userID),
+    FOREIGN KEY (PlayerID) REFERENCES Players(PlayerID),
 
     
 
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS Characters (
     HP Integer,
     SP Integer,
     MP Integer,
-    levels INTEGER DEFAULT 1, 
+    Level INTEGER DEFAULT 1, 
     BLOODIED INTEGER, 
 
     --ATTRIBUTES
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS Characters (
     -- skills, subclass, perks, and inventory 
     FOREIGN KEY (skillID) REFERENCES Skills(skillID),
     FOREIGN KEY (perkID) REFERENCES Perks(perkID),
-    FOREIGN KEY (inventoryID) REFERENCES Inventory(inventoryID),
+    FOREIGN KEY (itemID) REFERENCES Items(itemID),
     
 );
 
@@ -89,19 +89,19 @@ CREATE TABLE IF NOT EXISTS Skills(
 CREATE TABLE IF NOT EXISTS Perks(
     perkID TEXT PRIMARY KEY,
     perkName TEXT, 
+    perkCatergory Text,
     perkDiscription TEXT,
 
 
 );
 
-CREATE TABLE IF NOT EXISTS Inventory(
-    inventoryID TEXT PRIMARY KEY,
-    itemName TEXT, 
-        
+CREATE TABLE IF NOT EXISTS Items(
+    itemID TEXT PRIMARY KEY,
+    itemName TEXT,
+    itemCategory TEXT,
+    itemDescription TEXT,
+    Bonus           Integer,   
+
 
 
 );
-
-TABLE WEAPON
-
-TABLE ARMOR
