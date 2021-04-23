@@ -8,20 +8,20 @@ class PlayerModel {
         this.db = db;
     }
 
-createPlayer (Player) {
+createPlayer (player) {
     try {
             // Prepare the insert statement
             const sql = `INSERT INTO Players 
-                        (PlayerID, Playername, passwordHash, email) 
+                        (playerID, playerName, passwordHash, email) 
                     VALUES 
-                        (@PlayerID, @Playername, @passwordHash, @email)
+                        (@playerID, @playerName, @passwordHash, @email)
             `;
             const addPlayerStmt = db.prepare(sql);
             
             // Create the Player's id and add it to the Player object
-            Player.PlayerID = uuidV4();
+            player.playerID = uuidV4();
             // attempt to add them to the database
-            addPlayerStmt.run(Player);
+            addPlayerStmt.run(player);
             return true;
         } catch (err) {          // if there was any error
             console.error(err);  // then log it
@@ -29,18 +29,18 @@ createPlayer (Player) {
         }
     }
 
-    changeEmailAddress (newEmailAddr, PlayerID) {
+    changeEmailAddress (newEmailAddr, playerID) {
         try {
             const sql = `
                 UPDATE Players
                 SET
                     email=@newEmail
                 WHERE
-                    PlayerID=@PlayerID
+                    playerID=@playerID
             `;
             db.prepare(sql).run({
                 newEmail: newEmailAddr,
-                PlayerID
+                playerID
             });
             return true;
         } catch (err) {          // if there was any error
@@ -49,18 +49,18 @@ createPlayer (Player) {
         }
     }
 
-    changePlayername (newPlayername, PlayerID) {
+    changePlayername (newPlayername, playerID) {
         try {
             const sql = `
                 UPDATE Players
                 SET
-                    Playername=@newPlayername
+                    playerName=@newPlayername
                 WHERE
-                    PlayerID=@PlayerID
+                    playerID=@playerID
             `;
             db.prepare(sql).run({
                 newPlayername,
-                PlayerID
+                playerID
             });
             return true;
         } catch (err) {          // if there was any error
@@ -69,16 +69,16 @@ createPlayer (Player) {
         }
     }
 
-    upgradeToAdmin (PlayerID) {
+    upgradeToAdmin (playerID) {
         try {
             const sql = `
                 UPDATE Players
                 SET
                     role = 1
                 WHERE
-                    PlayerID=@PlayerID
+                    playerID=@playerID
             `;
-            db.prepare(sql).run({PlayerID});
+            db.prepare(sql).run({playerID});
             return true;
         } catch (err) {          // if there was any error
             console.error(err);  // then log it
@@ -86,16 +86,16 @@ createPlayer (Player) {
         }
     }
 
-    revokeAdmin (PlayerID) {
+    revokeAdmin (playerID) {
         try {
             const sql = `
                 UPDATE Players
                 SET
                     role = 0
                 WHERE
-                    PlayerID=@PlayerID
+                    playerID=@playerID
             `;
-            db.prepare(sql).run({PlayerID});
+            db.prepare(sql).run({playerID});
             return true;
         } catch (err) {          // if there was any error
             console.error(err);  // then log it
@@ -103,16 +103,16 @@ createPlayer (Player) {
         }
     }
 
-    emailVerified (PlayerID) {
+    emailVerified (playerID) {
         try {
             const sql = `
                 UPDATE Players
                 SET
                     didVerifyEmail=1
                 WHERE
-                    PlayerID=@PlayerID
+                    playerID=@playerID
             `;
-            db.prepare(sql).run({PlayerID});
+            db.prepare(sql).run({playerID});
             return true;
         } catch (err) {          // if there was any error
             console.error(err);  // then log it
@@ -120,14 +120,14 @@ createPlayer (Player) {
         }
     }
 
-    deletePlayer (PlayerID) {
+    deletePlayer (playerID) {
         try {
             const sql = `
                 DELETE FROM Players
                 WHERE
-                    PlayerID=@PlayerID
+                    playerID=@playerID
             `;
-            db.prepare(sql).run({PlayerID});
+            db.prepare(sql).run({playerID});
             return true;
         } catch (err) {          // if there was any error
             console.error(err);  // then log it
@@ -147,18 +147,18 @@ createPlayer (Player) {
         }
     }
 
-    getPlayerData (PlayerID) {
+    getPlayerData (playerID) {
         try {
             const sql = `
                 SELECT 
-                    PlayerID, PlayerName, passwordHash, 
+                    playerID, playerName, passwordHash, 
                     role, email, didVerifyEmail
                 FROM
                     Players
                 WHERE
-                    PlayerID=@PlayerID
+                    playerID=@playerID
             `;
-            db.prepare(sql).get({PlayerID});
+            db.prepare(sql).get({playerID});
             return true;
         } catch (err) {          // if there was any error
             console.error(err);  // then log it
@@ -182,9 +182,9 @@ createPlayer (Player) {
     }
 }
 
-const PlayerModel = new PlayerModel(db);
+const playerModel = new PlayerModel(db);
 
 
-exports.PlayerModel = new PlayerModel(db);
+exports.playerModel = new PlayerModel(db);
 
     

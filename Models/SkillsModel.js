@@ -11,10 +11,10 @@ class SkillsModel {
     createSkills (Skills) {
         try {
             const sql = `
-                INSERT INTO Skillss 
-                    (skillID, skillName,category,skillLevel) 
+                INSERT INTO Skills 
+                    (skillID, skillName,skillDescription,skillLevel,category) 
                 VALUES 
-                    (@skillID, @name, @STR, @DEX, @INT, @WIS, @CHA)
+                    (@skillID, @skillName, @skillDescription, @skillLevel @category)
             `;
             const addSkillsStmt = db.prepare(sql);
             
@@ -25,3 +25,6 @@ class SkillsModel {
         } catch (err) {          // if there was any error
             console.error(err);  // then log it
             return false;        // return false to indicate failure
+        }
+    }
+}
