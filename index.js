@@ -72,6 +72,47 @@ app.delete("/player/:playerID", (req, res) => {
 	}
 });
 
+app.post("/createCharacter", async (req, res) => {
+	console.log("/createCharacter");
+
+	let {name, STR, CON, DEX, INT, WIS, CHA,age, height , weight, background = "", subClass = "",  
+	trade= "", Title = "", SkillPoints = "", EXP = "", TNL = "", Personality =  "", Orgin = "" , Languages = "" } = req.body;
+	try {
+		const characterAdded = playerModel.createPlayer({
+			name, 
+			STR, 
+			CON, 
+			DEX, 
+			INT, 
+			WIS, 
+			CHA,
+			age, 
+			height, 
+			weight,
+			background,
+			subClass,  
+			trade, 
+			Title, 
+			SkillPoints,
+			 EXP, 
+			 TNL,          
+			 Personality, 
+			 Orgin , 
+			 Languages
+		});
+	
+		if (characterAdded) {
+			res.sendStatus(200); // 200 OK
+		} else { // something went wrong
+			res.sendStatus(500); // 500 Internal Server Error
+		}
+	} catch (err) {
+		console.error(err);
+		return res.sendStatus(500);
+	}
+
+});
+
 
 	
 app.listen(PORT, () => {

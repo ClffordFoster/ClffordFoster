@@ -14,15 +14,15 @@ class CharacterModel {
                     (
                         CharacterID, name, STR, CON, DEX, INT, WIS, CHA,
                         ARM, EVA, TGH, DR, background, age, height , weight,
-                        race, subClass,  trade, Title, SkillPoints, EXP, TNL ,
-                        Personality, Orgin , Languages, 
+                        race, subClass,  trade, Title, SkillPoints, EXP, TNL,
+                        Personality, Orgin , Languages 
                     ) 
                 VALUES 
                     (
                         @CharacterID, @name, @STR, @DEX, @INT, @WIS, @CHA
                         @ARM, @EVA, @TGH, @DR, @background, @age, @height , @weight,
                         @race, @subClass,  @trade, @Title, @SkillPoints, @EXP, @TNL ,
-                        @Personality, @Orgin , @Languages, 
+                        @Personality, @Orgin , @Languages
                     )
             `;
             const addCharacterStmt = db.prepare(sql);
@@ -39,7 +39,7 @@ class CharacterModel {
     }
 }
 
-function calcMods (characterID) {
+function calcstrMods (characterID) {
     let new_Str_Mod,
     new_Con_Mod,
     new_Dex_Mod,
@@ -54,17 +54,17 @@ function calcMods (characterID) {
     const sql = `
     UPDATE Characters
     SET
-        STR_MOD = new_Str_Mod
-        CON_MOD = new_Con_Mod
-        DEX_MOD = new_Dex_Mod
-        INT_MOD = new_Int_Mod
-        WIS_MOD = new_Wis_Mod
-        CHA_MOD = new_Cha_Mod
-        Speed = new_Speed
-        Perception = new_Perception
-        HP = new_Hp
-        MP = new_Mp
-        SP = new_Sp
+        STR_MOD = @new_Str_Mod,
+        CON_MOD = @new_Con_Mod,
+        DEX_MOD = @new_Dex_Mod,
+        INT_MOD = @new_Int_Mod,
+        WIS_MOD = @new_Wis_Mod,
+        CHA_MOD = @new_Cha_Mod,
+        Speed = @new_Speed,
+        Perception = @new_Perception,
+        HP = @new_Hp,
+        MP = @new_Mp,
+        SP = @new_Sp
 
     WHERE
     CharacterID=@characterID

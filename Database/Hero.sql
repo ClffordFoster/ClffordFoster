@@ -60,9 +60,9 @@ CREATE TABLE IF NOT EXISTS Characters (
     subClass TEXT, 
     trade TEXT, 
     Title TEXT,
-    SkillPoints TEXT DEFAULT 0,
-    EXP Integer DEFAULT 0,
-    TNL Integer,
+    SkillPoints TEXT,
+    EXP TEXT,
+    TNL TEXT,
     Personality TEXT, 
     Origin TEXT,
     Languages TEXT, 
@@ -103,7 +103,6 @@ CREATE TABLE IF NOT EXISTS Items(
     itemName TEXT,
     itemCategory TEXT,
     itemDescription TEXT,
-    Bonus           Integer,
     FOREIGN KEY (characterID) REFERENCES Characters(characterID)  
 
 
