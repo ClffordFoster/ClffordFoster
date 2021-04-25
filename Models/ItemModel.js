@@ -9,13 +9,19 @@ class ItemModel {
     }
 
 
-    createItem (Item) {
+    createItems (Item) {
         try {
                 // Prepare the insert statement
-                const sql = `INSERT INTO Items 
-                            (itemID, itemName, itemCategory, itemDescription, Bonus ) 
+                const sql = `INSERT INTO Items
+                            (itemID, itemName, itemCategory, itemDescription, strBonus,
+                            conBonus, dexBonus, chaBonus, intBonus, wisBonus, hpBonus,
+                            spBonus, mpBonus, speedBonus, poiseBonus, perceptionBonus,
+                            armBonus, evaBonus, tghBonus, drBonus) 
                         VALUES 
-                            (@itemID, @itemName, @itemCategory, @itemDescription, @Bonus  )
+                            (@itemID, @itemName, @itemCategory, @itemDescription, @strBonus,
+                                @conBonus, @dexBonus, @chaBonus, @intBonus, @wisBonus, @hpBonus,
+                                @spBonus, @mpBonus, @speedBonus, @poiseBonus, @perceptionBonus,
+                                @armBonus, @evaBonus, @tghBonus, @drBonus)
                 `;
                 const addItemStmt = db.prepare(sql);
                 

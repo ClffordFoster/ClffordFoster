@@ -183,8 +183,6 @@ createPlayer (player) {
 }
 
 const playerModel = new PlayerModel(db);
-
-
 exports.playerModel = new PlayerModel(db);
 
     

@@ -8,17 +8,17 @@ class SkillsModel {
         this.db = db;
     }
 
-    createSkills (Skills) {
+    createSkill (Skill) {
         try {
             const sql = `
                 INSERT INTO Skills 
-                    (skillID, skillName,skillDescription,skillLevel,category) 
+                    (skillID, skillName,skillDescription,skillLevel,skillCategory) 
                 VALUES 
                     (@skillID, @skillName, @skillDescription, @skillLevel @category)
             `;
             const addSkillsStmt = db.prepare(sql);
             
-            Skills.skillsID = uuidV4();
+            Skill.skillID = uuidV4();
             // attempt to add them to the database
             addSkillsStmt.run(Skills);
             return true;
