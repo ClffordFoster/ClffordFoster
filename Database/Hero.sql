@@ -20,19 +20,19 @@ CREATE TABLE IF NOT EXISTS Characters (
     --Temp Stats 
     baseHP INTEGER GENERATED ALWAYS AS (
         baseCON +baseSTR
-    )STORED,
+    )STORED
 
     HP INTEGER GENERATED ALWAYS AS (
         baseHP +hpBonus
-    )STORED,
+    )STORED
 
     baseSP INTEGER GENERATED ALWAYS AS (
         baseCON +baseDEX
-    )STORED,
+    )STORED
 
     SP INTEGER GENERATED ALWAYS AS (
         baseSP +spBonus
-    )STORED,
+    )STORED
 
      baseMP INTEGER GENERATED ALWAYS AS (
         CASE
@@ -41,17 +41,17 @@ CREATE TABLE IF NOT EXISTS Characters (
             WHEN baseINT > baseWIS
                 THEN baseCON +baseINT
         END
-    )STORED,
+    )STORED
 
     MP INTEGER GENERATED ALWAYS AS (
         baseMP +mpBonus
-    )STORED,
+    )STORED
 
     Level INTEGER DEFAULT 1, 
 
     BLOODIED INTEGER GENERATED ALWAYS AS(
         HP / 2
-    )STORED,
+    )STORED
 
     --ATTRIBUTES
     baseSTR INTEGER CHECK (baseSTR >=1 and baseSTR <= 30) NOT NULL ,
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 30
             ELSE baseSTR + strBonus
         END    
-    )STORED,
+    )STORED
 
     str_mod INTEGER GENERATED ALWAYS AS (
         CASE
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 10
             ELSE -1
         END
-    ) STORED,
+    ) STORED
 
     CON INTEGER GENERATED ALWAYS AS (
        CASE
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 30
             ELSE baseCON + conBonus
         END    
-    )STORED,
+    )STORED
 
     con_mod INTEGER GENERATED ALWAYS AS (
         CASE
@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 10
             ELSE -1
         END
-    ) STORED,
+    ) STORED
 
     DEX INTEGER GENERATED ALWAYS AS (
         CASE
@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 30
             ELSE baseDEX + dexBonus
         END    
-    )STORED,
+    )STORED
 
     dex_mod INTEGER GENERATED ALWAYS AS (
         CASE
@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 10
             ELSE -1
         END
-    ) STORED,
+    ) STORED
 
     INT INTEGER GENERATED ALWAYS AS (
         CASE
@@ -206,7 +206,7 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 30
             ELSE baseINT + intBonus
         END    
-    )STORED,
+    )STORED
 
     int_mod INTEGER GENERATED ALWAYS AS (
         CASE
@@ -244,7 +244,7 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 10
             ELSE -1
         END
-    ) STORED,
+    ) STORED
 
     WIS INTEGER GENERATED ALWAYS AS (
         CASE
@@ -252,7 +252,7 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 30
             ELSE baseWIS + wisBonus
         END    
-    )STORED,
+    )STORED
 
     wis_mod INTEGER GENERATED ALWAYS AS (
         CASE
@@ -291,7 +291,7 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 10
             ELSE -1
         END
-    ) STORED,
+    ) STORED
     
     CHA INTEGER GENERATED ALWAYS AS (
         CASE
@@ -299,7 +299,7 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 30
             ELSE baseCHA + chaBonus
         END    
-    )STORED,
+    )STORED
 
     CHA INTEGER CHECK (CHA >=1 and CHA <= 30) NOT NULL,
     cha_mod INTEGER GENERATED ALWAYS AS (
@@ -328,36 +328,36 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 10
             ELSE -1
         END
-    ) STORED,
+    ) STORED
 
     --SOFTSKILLS
     baseSpeed INTEGER GENERATED ALWAYS AS (
          dex_mod + 3
-    )STORED,
+    )STORED
 
     basePerception INTEGER GENERATED ALWAYS AS (
          wis_mod + 3
-    )STORED,
+    )STORED
 
     basePoise INTEGER DEFAULT 3,
 
     Speed INTEGER GENERATED ALWAYS AS(
         baseSpeed + speedBonus
-    )STORED,
+    )STORED
 
     Perception INTEGER GENERATED ALWAYS AS(
         basePerception + perceptionBonus
-    )STORED,
+    )STORED
 
      Poise INTEGER GENERATED ALWAYS AS(
         basePoise + poiseBonus
-    )STORED,
+    )STORED
 
     -- DEF STATS
     baseARM Integer DEFAULT 11,
     ARM INTEGER GENERATED ALWAYS AS (
         baseARM + armBonus 
-    )STORED,
+    )STORED
 
     baseEVA INTEGER GENERATED ALWAYS AS(
         CASE
@@ -366,11 +366,11 @@ CREATE TABLE IF NOT EXISTS Characters (
             WHEN DEX > INT
                 THEN 10 + dex_mod
         END
-    )STORED,
+    )STORED
 
     EVA INTEGER GENERATED ALWAYS AS (
         baseEVA + evaBonus 
-    )STORED,
+    )STORED
 
 
      baseTGH INTEGER GENERATED ALWAYS AS(
@@ -380,16 +380,16 @@ CREATE TABLE IF NOT EXISTS Characters (
             WHEN CON > STR
                 THEN 10 + con_mod
         END
-    )STORED,
+    )STORED
 
     TGH INTEGER GENERATED ALWAYS AS (
         baseTGH + tghBonus 
-    )STORED,
+    )STORED
 
     baseDR INTEGER DEFAULT -1,
     DR INTEGER GENERATED ALWAYS AS (
         baseDR + drBonus 
-    )STORED,
+    )STORED
     
     --generalInformation
     background TEXT,  
