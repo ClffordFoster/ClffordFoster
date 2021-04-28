@@ -12,27 +12,23 @@ CREATE TABLE IF NOT EXISTS Characters (
     name TEXT NOT NULL,
     characterID TEXT PRIMARY KEY,
     playerID TEXT,
-    
-
-
-    
 
     --Temp Stats 
     baseHP INTEGER GENERATED ALWAYS AS (
         baseCON +baseSTR
-    )STORED
+    )STORED,
 
     HP INTEGER GENERATED ALWAYS AS (
         baseHP +hpBonus
-    )STORED
+    )STORED,
 
     baseSP INTEGER GENERATED ALWAYS AS (
         baseCON +baseDEX
-    )STORED
+    )STORED,
 
     SP INTEGER GENERATED ALWAYS AS (
         baseSP +spBonus
-    )STORED
+    )STORED,
 
      baseMP INTEGER GENERATED ALWAYS AS (
         CASE
@@ -41,17 +37,17 @@ CREATE TABLE IF NOT EXISTS Characters (
             WHEN baseINT > baseWIS
                 THEN baseCON +baseINT
         END
-    )STORED
+    )STORED,
 
     MP INTEGER GENERATED ALWAYS AS (
         baseMP +mpBonus
-    )STORED
+    )STORED,
 
     Level INTEGER DEFAULT 1, 
 
     BLOODIED INTEGER GENERATED ALWAYS AS(
         HP / 2
-    )STORED
+    )STORED,
 
     --ATTRIBUTES
     baseSTR INTEGER CHECK (baseSTR >=1 and baseSTR <= 30) NOT NULL ,
@@ -65,10 +61,10 @@ CREATE TABLE IF NOT EXISTS Characters (
     STR INTEGER GENERATED ALWAYS AS (
         CASE
             WHEN baseSTR + strBonus > 30
-                THEN 30
+                THEN  30
             ELSE baseSTR + strBonus
         END    
-    )STORED
+    )STORED,
 
     str_mod INTEGER GENERATED ALWAYS AS (
         CASE
@@ -102,11 +98,11 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 8
             WHEN STR BETWEEN 28 AND 29
                 THEN 9
-            WHEN STR 30
+            WHEN STR = 30
                 THEN 10
             ELSE -1
         END
-    ) STORED
+    ) STORED,
 
     CON INTEGER GENERATED ALWAYS AS (
        CASE
@@ -114,7 +110,7 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 30
             ELSE baseCON + conBonus
         END    
-    )STORED
+    )STORED,
 
     con_mod INTEGER GENERATED ALWAYS AS (
         CASE
@@ -148,11 +144,11 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 8
             WHEN CON BETWEEN 28 AND 29
                 THEN 9
-            WHEN CON 30
+            WHEN CON = 30
                 THEN 10
             ELSE -1
         END
-    ) STORED
+    ) STORED,
 
     DEX INTEGER GENERATED ALWAYS AS (
         CASE
@@ -160,11 +156,11 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 30
             ELSE baseDEX + dexBonus
         END    
-    )STORED
+    )STORED,
 
     dex_mod INTEGER GENERATED ALWAYS AS (
         CASE
-            WHEN DEX= 1
+            WHEN DEX = 1
                 THEN -5
             WHEN DEX BETWEEN 2 AND 3
                 THEN -4
@@ -194,11 +190,11 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 8
             WHEN DEX BETWEEN 28 AND 29
                 THEN 9
-            WHEN DEX 30
+            WHEN DEX = 30
                 THEN 10
             ELSE -1
         END
-    ) STORED
+    ) STORED,
 
     INT INTEGER GENERATED ALWAYS AS (
         CASE
@@ -206,11 +202,11 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 30
             ELSE baseINT + intBonus
         END    
-    )STORED
+    )STORED,
 
     int_mod INTEGER GENERATED ALWAYS AS (
         CASE
-            WHEN INT= 1
+            WHEN INT = 1
                 THEN -5
             WHEN INT BETWEEN 2 AND 3
                 THEN -4
@@ -240,11 +236,11 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 8
             WHEN INT BETWEEN 28 AND 29
                 THEN 9
-            WHEN INT 30
+            WHEN INT = 30
                 THEN 10
             ELSE -1
         END
-    ) STORED
+    ) STORED,
 
     WIS INTEGER GENERATED ALWAYS AS (
         CASE
@@ -252,7 +248,7 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 30
             ELSE baseWIS + wisBonus
         END    
-    )STORED
+    )STORED,
 
     wis_mod INTEGER GENERATED ALWAYS AS (
         CASE
@@ -262,9 +258,9 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN -4
             WHEN WIS BETWEEN 4 AND 5
                 THEN -3
-            WHEN CON BETWEEN 6 AND 7
+            WHEN WIS BETWEEN 6 AND 7
                 THEN -2
-            WHEN CON BETWEEN 8 AND 9
+            WHEN WIS BETWEEN 8 AND 9
                 THEN -1
 
             WHEN WIS BETWEEN 10 AND 11
@@ -287,11 +283,11 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 8
             WHEN WIS BETWEEN 28 AND 29
                 THEN 9
-            WHEN WIS 30
+            WHEN WIS  = 30
                 THEN 10
             ELSE -1
         END
-    ) STORED
+    ) STORED,
     
     CHA INTEGER GENERATED ALWAYS AS (
         CASE
@@ -299,9 +295,7 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 30
             ELSE baseCHA + chaBonus
         END    
-    )STORED
-
-    CHA INTEGER CHECK (CHA >=1 and CHA <= 30) NOT NULL,
+    )STORED,
     cha_mod INTEGER GENERATED ALWAYS AS (
         CASE
             WHEN CHA BETWEEN 10 AND 11
@@ -324,40 +318,40 @@ CREATE TABLE IF NOT EXISTS Characters (
                 THEN 8
             WHEN CHA BETWEEN 28 AND 29
                 THEN 9
-            WHEN CHA 30
+            WHEN CHA  = 30
                 THEN 10
             ELSE -1
         END
-    ) STORED
+    ) STORED,
 
     --SOFTSKILLS
     baseSpeed INTEGER GENERATED ALWAYS AS (
          dex_mod + 3
-    )STORED
+    )STORED,
 
     basePerception INTEGER GENERATED ALWAYS AS (
          wis_mod + 3
-    )STORED
+    )STORED,
 
     basePoise INTEGER DEFAULT 3,
 
     Speed INTEGER GENERATED ALWAYS AS(
         baseSpeed + speedBonus
-    )STORED
+    )STORED,
 
     Perception INTEGER GENERATED ALWAYS AS(
         basePerception + perceptionBonus
-    )STORED
+    )STORED,
 
      Poise INTEGER GENERATED ALWAYS AS(
         basePoise + poiseBonus
-    )STORED
+    )STORED,
 
     -- DEF STATS
     baseARM Integer DEFAULT 11,
     ARM INTEGER GENERATED ALWAYS AS (
         baseARM + armBonus 
-    )STORED
+    )STORED,
 
     baseEVA INTEGER GENERATED ALWAYS AS(
         CASE
@@ -366,11 +360,11 @@ CREATE TABLE IF NOT EXISTS Characters (
             WHEN DEX > INT
                 THEN 10 + dex_mod
         END
-    )STORED
+    )STORED,
 
     EVA INTEGER GENERATED ALWAYS AS (
         baseEVA + evaBonus 
-    )STORED
+    )STORED,
 
 
      baseTGH INTEGER GENERATED ALWAYS AS(
@@ -380,16 +374,34 @@ CREATE TABLE IF NOT EXISTS Characters (
             WHEN CON > STR
                 THEN 10 + con_mod
         END
-    )STORED
+    )STORED,
 
     TGH INTEGER GENERATED ALWAYS AS (
         baseTGH + tghBonus 
-    )STORED
+    )STORED,
 
     baseDR INTEGER DEFAULT -1,
     DR INTEGER GENERATED ALWAYS AS (
         baseDR + drBonus 
-    )STORED
+    )STORED,
+
+    --Bonus
+    strBonus INTEGER DEFAULT 0,
+    conBonus INTEGER DEFAULT 0,
+    dexBonus INTEGER DEFAULT 0,
+    chaBonus INTEGER DEFAULT 0,
+    intBonus INTEGER DEFAULT 0,
+    wisBonus INTEGER DEFAULT 0,
+    hpBonus INTEGER DEFAULT 0,
+    spBonus  INTEGER DEFAULT 0,
+    mpBonus INTEGER DEFAULT 0,
+    speedBonus INTEGER DEFAULT 0,
+    poiseBonus INTEGER DEFAULT 0,
+    perceptionBonus INTEGER DEFAULT 0,
+    armBonus INTEGER DEFAULT 0,
+    evaBonus INTEGER DEFAULT 0, 
+    tghBonus INTEGER DEFAULT 0, 
+    drBonus INTEGER DEFAULT 0,
     
     --generalInformation
     background TEXT,  
@@ -406,13 +418,11 @@ CREATE TABLE IF NOT EXISTS Characters (
     Personality TEXT, 
     Origin TEXT,
     Languages TEXT, 
-    
-
-
 
     -- skills, subclass, perks, and inventory 
     FOREIGN KEY (playerID) REFERENCES Players(playerID)   
 );
+
 
 CREATE TABLE IF NOT EXISTS Skills(
     characterID TEXT,
@@ -434,7 +444,7 @@ CREATE TABLE IF NOT EXISTS Perks(
     strBonus INTEGER DEFAULT 0,
     conBonus INTEGER DEFAULT 0,
     dexBonus INTEGER DEFAULT 0,
-    chaBonus INTEGER 0,
+    chaBonus INTEGER DEFAULT 0,
     intBonus INTEGER DEFAULT 0,
     wisBonus INTEGER DEFAULT 0,
     hpBonus INTEGER DEFAULT 0,
@@ -461,7 +471,7 @@ CREATE TABLE IF NOT EXISTS Items(
     strBonus INTEGER DEFAULT 0,
     conBonus INTEGER DEFAULT 0,
     dexBonus INTEGER DEFAULT 0,
-    chaBonus INTEGER 0,
+    chaBonus INTEGER DEFAULT 0,
     intBonus INTEGER DEFAULT 0,
     wisBonus INTEGER DEFAULT 0,
     hpBonus INTEGER DEFAULT 0,

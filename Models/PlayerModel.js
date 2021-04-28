@@ -180,7 +180,27 @@ createPlayer (player) {
             return [];        // return false to indicate failure
         }
     }
+
+    getPlayerDataByEmail (email) {
+        try {
+            const sql = `
+                SELECT 
+                    playerID, playerName, 
+                    role, email, didVerifyEmail
+                FROM
+                    Players
+                WHERE
+                    email=@email
+            `;
+            return db.prepare(sql).get({email});
+        } catch (err) {          // if there was any error
+            console.error(err);  // then log it
+            return false;        // return false to indicate failure
+        }
+    }
 }
+
+
 
 const playerModel = new PlayerModel(db);
 exports.playerModel = new PlayerModel(db);

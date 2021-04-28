@@ -3,8 +3,14 @@
 const express = require("express");
 const argon2 = require("argon2");
 const app = express();
+const path = require('path');
+const session = require("express-session");
+const redis = require('redis');	
+let RedisStore = require('connect-redis')(session);
+let redisClient = redis.createClient();
 
 app.use(express.json());
+app.use(express.urlencoded());
 
 const { playerModel } = require('./Models/PlayerModel');
 const { characterModel } = require("./Models/CharacterModel");
@@ -12,10 +18,29 @@ const { skillsModel } = require("./Models/SkillsModel");
 
 const PORT = 8001;
 
+const sessionConfig = {
+	store: new RedisStore({ client: redisClient }),
+	secret: "somethingSecret",
+	resave: false,
+	saveUninitialized: false,
+	name: "session", // now it is just a generic name
+	cookie: {
+	  httpOnly: true,
+	  maxAge: 1000 * 60 * 72, // 72 hours
+	}
+  };
+
+  app.use(session(sessionConfig));
+
+  app.use(express.static(path.join(__dirname, "public"), {
+	  extensions: ['html'],
+  }));
+
+
 // Handle requests to /users
 // Create a new user account
 app.post("/register", async (req, res) => {
-	console.log("POST /register");
+	console.log("POST/register");
 
 	const {playerName, password, email} = req.body;
 
@@ -28,7 +53,7 @@ app.post("/register", async (req, res) => {
 		});
 	
 		if (playerAdded) {
-			res.sendStatus(200); // 200 OK
+			res.redirect("/login")
 		} else { // something went wrong
 			res.sendStatus(500); // 500 Internal Server Error
 		}
@@ -42,20 +67,37 @@ app.post("/login", async (req, res) => {
 	const { email, password } = req.body;
 
 	try {
-		const row = playerModel.getPasswordHash(email); 
-
-		if (!row) {
-			return res.sendStatus(400);
-		}
-
-		const {passwordHash} = row;
-		
-		if ( await argon2.verify(passwordHash, password) ) {
+			const row = playerModel.getPasswordHash(email); 
+			if (!row) {
+				return res.sendStatus(400);
+			}
+			const {passwordHash} = row;
+			if ( await argon2.verify(passwordHash, password) ) {
+				req.session.regenerate(function(err){
+					if(err){
+						console.error(err);
+						return res.sendStatus(500);
+					}
+					else{
+						const player = playerModel.getPlayerDataByEmail(email);
+						if(player){
+							req.session.playerID = player.playerID;
+							req.session.email = player.email;
+							req.session.playerName = player.playerName;
+							req.session.role = player.role;
+							req.session.isLoggedIn = true;
+							res.redirect("/success");
+						}
+						else{
+							return res.sendStatus(500);
+					}
+				}
+			});
 			return res.sendStatus(200);
-		} else {
+		}else{
 			return res.sendStatus(400);
 		}
-	} catch (err) {
+	}catch (err) {
 		console.error(err);
 		return res.sendStatus(500);
 	}
@@ -76,7 +118,7 @@ app.post("/createCharacter", async (req, res) => {
 	console.log("/createCharacter");
 
 	let {name, baseSTR, baseCON, baseDEX, baseINT, baseWIS, baseCHA,age, height , weight, background = "", subClass = "",  
-	trade= "", Title = "", SkillPoints = "", EXP = "", TNL = "", Personality =  "", Orgin = "" , Languages = "" } = req.body;
+	trade= "", Title = "", SkillPoints = "", EXP = "", TNL = "", Personality =  "", Origin  = "" , Languages = "" } = req.body;
 	try {
 		const characterAdded = characterModel.createCharacter({
 			name, 
@@ -97,7 +139,7 @@ app.post("/createCharacter", async (req, res) => {
 			 EXP, 
 			 TNL,          
 			 Personality, 
-			 Orgin , 
+			 Origin  , 
 			 Languages
 		});
 	
