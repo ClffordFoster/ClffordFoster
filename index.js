@@ -10,7 +10,7 @@ let RedisStore = require('connect-redis')(session);
 let redisClient = redis.createClient();
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended:false}));
 
 const { playerModel } = require('./Models/PlayerModel');
 const { characterModel } = require("./Models/CharacterModel");
@@ -43,7 +43,7 @@ app.post("/register", async (req, res) => {
 	console.log("POST/register");
 
 	const {playerName, password, email} = req.body;
-
+	console.log(req.body);
 	try {
 		const passwordHash = await argon2.hash(password, {hashLength: 5});
 		const playerAdded = playerModel.createPlayer({
@@ -53,7 +53,8 @@ app.post("/register", async (req, res) => {
 		});
 	
 		if (playerAdded) {
-			res.redirect("/login")
+			console.log("PlayerAddedSuccessfully");
+			res.redirect("/login");
 		} else { // something went wrong
 			res.sendStatus(500); // 500 Internal Server Error
 		}
