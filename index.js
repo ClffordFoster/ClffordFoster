@@ -11,6 +11,7 @@ let redisClient = redis.createClient();
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+app.set('view engine', 'ejs');
 
 const { playerModel } = require('./Models/PlayerModel');
 const { characterModel } = require("./Models/CharacterModel");
@@ -54,9 +55,9 @@ app.post("/register", async (req, res) => {
 	
 		if (playerAdded) {
 			console.log("PlayerAddedSuccessfully");
-			res.redirect("/login");
+			return res.redirect("/login");
 		} else { // something went wrong
-			res.sendStatus(500); // 500 Internal Server Error
+			return res.sendStatus(500); // 500 Internal Server Error
 		}
 	} catch (err) {
 		console.error(err);
@@ -66,7 +67,6 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
 	const { email, password } = req.body;
-
 	try {
 			const row = playerModel.getPasswordHash(email); 
 			if (!row) {
@@ -94,7 +94,7 @@ app.post("/login", async (req, res) => {
 					}
 				}
 			});
-			return res.sendStatus(200);
+			
 		}else{
 			return res.sendStatus(400);
 		}
@@ -104,14 +104,30 @@ app.post("/login", async (req, res) => {
 	}
 });
 
+app.post("/logout", async (req, res) => {
+	if(req.session){
+		req.session.destroy(function(err){
+			if(err){
+				console.error(err);
+				return res.sendStatus(500);
+			}
+			req.redirect("/login");
+		});
+		
+	}
+	else{
+			req.redirect("/login");	
+		}
+});
+
 // Delete a user's account
 app.delete("/player/:playerID", (req, res) => {
 	console.log("DELETE /players");
 	const {playerID} = req.params;
 	if (playerModel.deletePlayer(playerID)) {
-		res.sendStatus(200);
+		return res.sendStatus(200);
 	} else {
-		res.sendStatus(500);
+		return res.sendStatus(500);
 	}
 });
 
@@ -145,9 +161,9 @@ app.post("/createCharacter", async (req, res) => {
 		});
 	
 		if (characterAdded) {
-			res.sendStatus(200); // 200 OK
+			return res.sendStatus(200); // 200 OK
 		} else { // something went wrong
-			res.sendStatus(500); // 500 Internal Server Error
+			return res.sendStatus(500); // 500 Internal Server Error
 		}
 	} catch (err) {
 		console.error(err);
@@ -164,9 +180,9 @@ app.post("/createSkill", async (req,res) =>{
 				skillName,skillDescription,skillLevel,skillCategory
 			});
 			if (skillAdded) {
-				res.sendStatus(200); // 200 OK
+				return res.sendStatus(200); // 200 OK
 			} else { // something went wrong
-				res.sendStatus(500); // 500 Internal Server Error
+				return res.sendStatus(500); // 500 Internal Server Error
 			}
 		} catch (err) {
 			console.error(err);
@@ -188,18 +204,15 @@ app.post("/createItem", async (req,res) =>{
 				armBonus, evaBonus, tghBonus, drBonus
 			});	
 			if (itemAdded) {
-				res.sendStatus(200); // 200 OK
+				return res.sendStatus(200); // 200 OK
 			} else { // something went wrong
-				res.sendStatus(500); // 500 Internal Server Error
+				return res.sendStatus(500); // 500 Internal Server Error
 			}
 		} catch (err) {
 			console.error(err);
 			return res.sendStatus(500);
 		}
-});
-
-
-	
+});	
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
