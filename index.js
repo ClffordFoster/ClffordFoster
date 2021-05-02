@@ -52,9 +52,13 @@ app.get('/register', (req,res) =>{
 	res.render('register.ejs');
 });
 
-app.get('/Hero', (req,res) =>{
-	res.render('Hero.ejs');
+app.get('/hero', (req,res) =>{
+	if (!req.session.isLoggedIn){
+		res.redirect('/login')
+	}
+	res.render('hero.ejs')
 });
+
 
 
 // Handle requests to /users
@@ -62,7 +66,11 @@ app.get('/Hero', (req,res) =>{
 app.post("/register", async (req, res) => {
 	console.log("POST/register");
 
-	const {playerName, password, email} = postplayersSchema.validate(req.body);
+	const {playerName, password, email} = schemas.postplayersSchema.validate(req.body, VALIDATION_OPTIONS);
+	if (error){
+		const errorMessages = error.details.map(error => error.message);
+		return res.status(400).json(errorMessages);
+	}
 	console.log(req.body);
 	try {
 		const passwordHash = await argon2.hash(password, {hashLength: 5});
@@ -85,7 +93,13 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-	const { email, password } = req.body;
+	
+	const {error } = schemas.postloginSchema.validate(req.body, VALIDATION_OPTIONS);
+	if (error){
+		const errorMessages = error.details.map(error => error.message);
+		return res.status(400).json(errorMessages);
+	}
+	const {email , password} = req.body;
 	try {
 			const row = playerModel.getPasswordHash(email); 
 			if (!row) {
@@ -124,8 +138,9 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/logout", async (req, res) => {
-	if(req.session){
+	if(req.session.isLoggedIn){
 		req.session.destroy(function(err){
+			console.log("loggedin")
 			if(err){
 				console.error(err);
 				return res.sendStatus(500);
@@ -135,6 +150,7 @@ app.post("/logout", async (req, res) => {
 		
 	}
 	else{
+			console.log("notloggedin")
 			return res.redirect("/login");	
 		}
 });
@@ -143,7 +159,11 @@ app.post("/logout", async (req, res) => {
 app.delete("/player/:playerID", (req, res) => {
 	if(!req.session||req.session.userID !== userID && req.session.role !== 1){returnres.sendStatus(403);}
 	console.log("DELETE /players");
-	const {playerID} = req.params;
+	const {playerID} = schemas.postplayersSchema.validate(req.params, VALIDATION_OPTIONS);
+	if (error){
+		const errorMessages = error.details.map(error => error.message);
+		return res.status(400).json(errorMessages);
+	}
 	if (playerModel.deletePlayer(playerID)) {
 		return res.sendStatus(200);
 	} else {

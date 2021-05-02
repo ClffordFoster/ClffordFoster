@@ -9,9 +9,9 @@ const VALIDATION_OPTIONS = {
 };
 
 // Require all of your validator files here.
-const{postplayersSchema} = require("./postusersValidator");
+const{postplayersSchema} = require("./postplayersValidator");
 const{postloginSchema} = require("./postloginValidator");
-const{deleteplayersSchema} = require("./deleteusersValidator");
+const{deleteplayersSchema} = require("./deleteplayersValidator");
 // require new schemas here
 
 // Then add them to this object
