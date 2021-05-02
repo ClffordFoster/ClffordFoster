@@ -36,31 +36,7 @@ async function registerUser (event) {
   // Now you can do you fetch request and handle the response
  }
 
- 	
-async function login (event) {
-  try {
-    event.preventDefault();
-    const response = await fetch(`${window.location.origin}/login`, {
-      "method": "POST",
-      "headers": {
-        "Content-Type": "application/json"
-      },
-      "body": JSON.stringify({playerName, password})
-    });
-    if(response.redirected){
-      window.location = response.url;
-    }
-    else if (response.status === 500) {
-      alert("MESSED UP");
-    } else {
-      alert("An unknown error occured!");
-      console.error(response);
-    }
-  } catch (err) {
-    console.error(err);
-    console.error(response);
-  }
-}
+ 
 // 3. Add the event listener for the "submit" event and register
 // your event handler
 form.addEventListener("submit", registerUser);

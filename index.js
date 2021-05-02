@@ -4,8 +4,10 @@ const express = require("express");
 const argon2 = require("argon2");
 const app = express();
 const path = require('path');
+const Joi = require('joi');
 const session = require("express-session");
 const redis = require('redis');	
+const {schemas, VALIDATION_OPTIONS} = require("./validators/allValidators");
 let RedisStore = require('connect-redis')(session);
 let redisClient = redis.createClient();
 
@@ -50,8 +52,8 @@ app.get('/register', (req,res) =>{
 	res.render('register.ejs');
 });
 
-app.get('/success', (req,res) =>{
-	res.render('success.ejs');
+app.get('/Hero', (req,res) =>{
+	res.render('Hero.ejs');
 });
 
 
@@ -60,7 +62,7 @@ app.get('/success', (req,res) =>{
 app.post("/register", async (req, res) => {
 	console.log("POST/register");
 
-	const {playerName, password, email} = req.body;
+	const {playerName, password, email} = postplayersSchema.validate(req.body);
 	console.log(req.body);
 	try {
 		const passwordHash = await argon2.hash(password, {hashLength: 5});
@@ -104,7 +106,7 @@ app.post("/login", async (req, res) => {
 							req.session.playerName = player.playerName;
 							req.session.role = player.role;
 							req.session.isLoggedIn = true;
-							res.redirect("/success");
+							res.redirect("/Hero");
 						}
 						else{
 							return res.sendStatus(500);
@@ -128,17 +130,18 @@ app.post("/logout", async (req, res) => {
 				console.error(err);
 				return res.sendStatus(500);
 			}
-			req.redirect("/login");
+			res.redirect("/login");
 		});
 		
 	}
 	else{
-			req.redirect("/login");	
+			return res.redirect("/login");	
 		}
 });
 
 // Delete a user's account
 app.delete("/player/:playerID", (req, res) => {
+	if(!req.session||req.session.userID !== userID && req.session.role !== 1){returnres.sendStatus(403);}
 	console.log("DELETE /players");
 	const {playerID} = req.params;
 	if (playerModel.deletePlayer(playerID)) {
