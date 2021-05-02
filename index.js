@@ -38,6 +38,23 @@ const sessionConfig = {
   }));
 
 
+  app.get('/', (req,res) =>{
+	res.render('index.ejs');
+});
+
+app.get('/login', (req,res) =>{
+	res.render('login.ejs');
+});
+
+app.get('/register', (req,res) =>{
+	res.render('register.ejs');
+});
+
+app.get('/success', (req,res) =>{
+	res.render('success.ejs');
+});
+
+
 // Handle requests to /users
 // Create a new user account
 app.post("/register", async (req, res) => {
