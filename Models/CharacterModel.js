@@ -19,7 +19,7 @@ class CharacterModel {
                     ) 
                 VALUES 
                     (
-                        @CharacterID, @player, @name, @baseSTR, @baseDEX, @baseINT, @baseWIS, @baseCHA,
+                        @CharacterID, @player, @name, @baseSTR, @baseCON, @baseDEX, @baseINT, @baseWIS, @baseCHA,
                         @background, @age, @height , @weight,
                         @race, @subClass,  @trade, @Title, @SkillPoints, @EXP, @TNL ,
                         @Personality, @Origin , @Languages
@@ -30,7 +30,6 @@ class CharacterModel {
             Character.CharacterID = uuidV4();
             // attempt to add them to the database
             addCharacterStmt.run(Character);
-            calcMods(Character.CharacterID);
             return true;
         } catch (err) {          // if there was any error
             console.error(err);  // then log it
