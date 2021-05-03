@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>This shows up in the browser tab</title>
+        <script src="/js/character.js" defer></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <form id = "characterForm" action = "/createCharacter" method = "POST">
+            <div>
+                <label for = "name"> Name: </label> 
+                <input id = "name" name = "name" type = "name" required >
+            </div>
+            <div>
+                <label for = "baseSTR"> baseSTR: </label> 
+                <input id = "baseSTR" name = "baseSTR" type = "baseSTR" required >
+            </div>
+            <div>
+                <label for = "baseCON" > baseCON: </label>
+                <input id  = "baseCON" name = "baseCON" type = "baseCON" required>
+            </div>
+            <div>
+                <label for = "baseDEX" > baseDEX: </label>
+                <input id  = "baseDEX" name = "baseDEX" type = "baseDEX" required>
+            </div>
+            <div>
+                <label for = "baseINT" > baseINT: </label>
+                <input id  = "baseINT" name = "baseINT" type = "baseINT" required>
+            </div>
+            <div>
+                <label for = "baseWIS" > baseWIS:</label>
+                <input id  = "baseWIS" name = "baseWIS" type = "baseWIS" required>
+            </div>
+            <div>
+                <label for = "baseCHA" > baseCHA:</label>
+                <input id  = "baseCHA" name = "baseCHA" type = "baseCHA" required>
+            </div>
+            <div>
+                <label for = "age" > age:</label>
+                <input id  = "age" name = "age" type = "age" required>
+            </div>
+            <div>
+                <label for = "height" > height:</label>
+                <input id  = "height" name = "height" type = "height" required>
+            </div>
+            <div>
+                <label for = "weight" > weight:</label>
+                <input id  = "weight" name = "weight" type = "weight" required>
+            </div>
+            <div>
+                <label for = "race"> race: </label> 
+                <input id = "race" name = "race" type = "race" required >
+            </div>
+            <div>
+                <label for = "background" > background:</label>
+                <input id  = "background" name = "background" type = "text">
+            </div>
+            <div>
+                <label for = "subClass" > subClass:</label>
+                <input id  = "subClass" name = "subClass" type = "subClass">
+            </div>
+            <div>
+                <label for = "trade" > trade:</label>
+                <input id  = "trade" name = "trade" type = "trade">
+            </div>
+            <div>
+                <label for = "Title" > Title:</label>
+                <input id  = "Title" name = "Title" type = "Title">
+            </div>
+            <div>
+                <label for = "SkillPoints" > SkillPoints:</label>
+                <input id  = "SkillPoints" name = "SkillPoints" type = "SkillPoints">
+            </div>
+            <div>
+                <label for = "EXP" > EXP:</label>
+                <input id  = "EXP" name = "EXP" type = "EXP">
+            </div>
+            <div>
+                <label for = "TNL" > TNL:</label>
+                <input id  = "TNL" name = "TNL" type = "TNL">
+            </div>
+            <div>
+                <label for = "Personality" > Personality:</label>
+                <input id  = "Personality" name = "Personality" type = "Personality">
+            </div>
+            <div>
+                <label for = "Origin" > Origin:</label>
+                <input id  = "Origin" name = "Origin" type = "Origin">
+            </div>
+            <div>
+                <label for = "Languages" > Languages:</label>
+                <input id  = "Languages" name = "Languages" type = "Languages">
+            </div>
+            <button class= "submit"
+            > Create Character
+            </button>
+        </form>
+        <a href = "/hero">Hero</a>
+    </body>
+</html>

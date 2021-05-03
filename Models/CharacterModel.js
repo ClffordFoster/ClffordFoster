@@ -12,14 +12,14 @@ class CharacterModel {
             const sql = `
                 INSERT INTO Characters 
                     (
-                        CharacterID, playerID, name, baseSTR, baseCON, baseDEX, baseINT, baseWIS, baseCHA,
+                        CharacterID, player, name, baseSTR, baseCON, baseDEX, baseINT, baseWIS, baseCHA,
                         background, age, height , weight,
                         race, subClass,  trade, Title, SkillPoints, EXP, TNL,
                         Personality, Origin  , Languages 
                     ) 
                 VALUES 
                     (
-                        @CharacterID, @playerID, @name, @baseSTR, @baseDEX, @baseINT, @baseWIS, @baseCHA,
+                        @CharacterID, @player, @name, @baseSTR, @baseDEX, @baseINT, @baseWIS, @baseCHA,
                         @background, @age, @height , @weight,
                         @race, @subClass,  @trade, @Title, @SkillPoints, @EXP, @TNL ,
                         @Personality, @Origin , @Languages

@@ -52,9 +52,13 @@ app.get('/register', (req,res) =>{
 	res.render('register.ejs');
 });
 
+app.get('/character', (req,res) =>{
+	res.render('character.ejs');
+});
+
 app.get('/hero', (req,res) =>{
 	if (!req.session.isLoggedIn){
-		res.redirect('/login')
+		return res.redirect('/login')
 	}
 	res.render('hero.ejs')
 });
@@ -65,8 +69,8 @@ app.get('/hero', (req,res) =>{
 // Create a new user account
 app.post("/register", async (req, res) => {
 	console.log("POST/register");
-
-	const {playerName, password, email} = schemas.postplayersSchema.validate(req.body, VALIDATION_OPTIONS);
+	const {playerName, password, email} = req.body;
+	const {error} = schemas.postplayersSchema.validate(req.body, VALIDATION_OPTIONS);
 	if (error){
 		const errorMessages = error.details.map(error => error.message);
 		return res.status(400).json(errorMessages);
@@ -93,13 +97,13 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-	
+	const {email , password} = req.body;
 	const {error } = schemas.postloginSchema.validate(req.body, VALIDATION_OPTIONS);
 	if (error){
 		const errorMessages = error.details.map(error => error.message);
 		return res.status(400).json(errorMessages);
 	}
-	const {email , password} = req.body;
+	
 	try {
 			const row = playerModel.getPasswordHash(email); 
 			if (!row) {
@@ -174,7 +178,7 @@ app.delete("/player/:playerID", (req, res) => {
 app.post("/createCharacter", async (req, res) => {
 	console.log("/createCharacter");
 
-	let {name, baseSTR, baseCON, baseDEX, baseINT, baseWIS, baseCHA,age, height , weight, background = "", subClass = "",  
+	let {name, baseSTR, baseCON, baseDEX, baseINT, baseWIS, baseCHA,age, height , weight, race, background = "", subClass = "",  
 	trade= "", Title = "", SkillPoints = "", EXP = "", TNL = "", Personality =  "", Origin  = "" , Languages = "" } = req.body;
 	try {
 		const characterAdded = characterModel.createCharacter({
@@ -188,6 +192,7 @@ app.post("/createCharacter", async (req, res) => {
 			age, 
 			height, 
 			weight,
+			race,
 			background,
 			subClass,  
 			trade, 
@@ -197,7 +202,8 @@ app.post("/createCharacter", async (req, res) => {
 			 TNL,          
 			 Personality, 
 			 Origin  , 
-			 Languages
+			 Languages,
+			 player: req.session.playerID 
 		});
 	
 		if (characterAdded) {

@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS Characters (
     -- Identifer's 
     name TEXT NOT NULL,
     characterID TEXT PRIMARY KEY,
-    playerID TEXT,
+    player TEXT,
 
     --Temp Stats 
     baseHP INTEGER GENERATED ALWAYS AS (
@@ -420,7 +420,7 @@ CREATE TABLE IF NOT EXISTS Characters (
     Languages TEXT, 
 
     -- skills, subclass, perks, and inventory 
-    FOREIGN KEY (playerID) REFERENCES Players(playerID)   
+    FOREIGN KEY (player) REFERENCES Players(playerID)   
 );
 
 
@@ -497,4 +497,4 @@ CREATE TRIGGER IF NOT EXISTS updateItemBonus
     AFTER UPDATE ON INVENTORY
     WHEN equipped IS TRUE
 BEGIN
-    
+

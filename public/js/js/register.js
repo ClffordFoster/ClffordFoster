@@ -1,6 +1,5 @@
 // 1. Get a Reference to the HTML form element
 const form = document.getElementById("registerForm");
-const loginForm = document.getElementById("loginForm");
 // 2. Make your event handler function
 // you want to make this one `async` so you can `await` 
 // the fetch requests
@@ -35,9 +34,7 @@ async function registerUser (event) {
     }
   // Now you can do you fetch request and handle the response
  }
-
- 
+// Now you can do you fetch request and handle the response
 // 3. Add the event listener for the "submit" event and register
 // your event handler
 form.addEventListener("submit", registerUser);
-loginForm.addEventListener("submit", login);
