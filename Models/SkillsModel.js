@@ -12,9 +12,9 @@ class SkillsModel {
         try {
             const sql = `
                 INSERT INTO Skills 
-                    (skillID, skillName,skillDescription,skillLevel,skillCategory) 
+                    (skillID, skillName,skillDescription,skillLevel,skillCategory, character) 
                 VALUES 
-                    (@skillID, @skillName, @skillDescription, @skillLevel @category)
+                    (@skillID, @skillName, @skillDescription, @skillLevel, @skillCategory, @character)
             `;
             const addSkillsStmt = db.prepare(sql);
             

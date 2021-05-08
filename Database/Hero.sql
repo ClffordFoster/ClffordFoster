@@ -431,7 +431,7 @@ CREATE TABLE IF NOT EXISTS Skills(
     skillDescription TEXT, 
     skillLevel Integer, 
     skillCategory TEXT,
-    FOREIGN KEY (characterID) REFERENCES Characters(characterID)  
+    FOREIGN KEY (character) REFERENCES Characters(characterID)  
 );
 
 CREATE TABLE IF NOT EXISTS Perks(

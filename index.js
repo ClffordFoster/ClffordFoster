@@ -198,16 +198,16 @@ app.post("/createCharacter", async (req, res) => {
 			trade, 
 			Title, 
 			SkillPoints,
-			 EXP, 
-			 TNL,          
-			 Personality, 
-			 Origin  , 
-			 Languages,
-			 player: req.session.playerID 
+			EXP, 
+			TNL,          
+			Personality, 
+			Origin, 
+			Languages,
+			player: req.session.playerID 
 		});
 	
 		if (characterAdded) {
-			return res.sendStatus(200); // 200 OK
+			return res.redirect("/Hero"); // 200 OK
 		} else { // something went wrong
 			return res.sendStatus(500); // 500 Internal Server Error
 		}
@@ -223,7 +223,8 @@ app.post("/createSkill", async (req,res) =>{
 	let{skillName,skillDescription,skillLevel,skillCategory } = req.body
 		try{
 			let skillAdded = skillsModel.createSkill({
-				skillName,skillDescription,skillLevel,skillCategory
+				skillName,skillDescription,skillLevel,skillCategory,
+				player: req.session.playerID 
 			});
 			if (skillAdded) {
 				return res.sendStatus(200); // 200 OK

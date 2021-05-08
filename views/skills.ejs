@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>This shows up in the browser tab</title>
+        <script src="/js/skill.js" defer></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <form id = "skillForm" action = "/createSkill" method = "POST">
+            <div>
+                <label for = "skillName"> SkillName: </label> 
+                <input id = "skillName" name = "skillName" type = "skillName" required >
+            </div>
+            <div>
+                <label for = "skillDescreption"> SkillDescreption: </label> 
+                <input id = "skillDescreption" name = "skillDescreption" type = "text" required >
+            </div>
+            <div>
+                <label for = "skillLevel" > SkillLevel: </label>
+                <input id  = "skillLevel" name = "skillLevel" type = "skillLevel" required>
+            </div>
+            <div>
+                <label for = "skillCategory" > SkillCategory: </label>
+                <input id  = "skillCategory" name = "skillCategory" type = "skillCategory" required>
+            </div>
+            <button class= "submit"
+            > CreateSkill
+            </button>
+        </form>
+        <a href = "/hero">Hero</a>
+        <a href = "/character">Characters</a>
+    
+    </body>
+</html>
