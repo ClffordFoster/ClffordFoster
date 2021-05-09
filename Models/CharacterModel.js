@@ -12,14 +12,14 @@ class CharacterModel {
             const sql = `
                 INSERT INTO Characters 
                     (
-                        CharacterID, player, name, baseSTR, baseCON, baseDEX, baseINT, baseWIS, baseCHA,
+                        characterID, player, name, baseSTR, baseCON, baseDEX, baseINT, baseWIS, baseCHA,
                         background, age, height , weight,
                         race, subClass,  trade, Title, SkillPoints, EXP, TNL,
                         Personality, Origin  , Languages 
                     ) 
                 VALUES 
                     (
-                        @CharacterID, @player, @name, @baseSTR, @baseCON, @baseDEX, @baseINT, @baseWIS, @baseCHA,
+                        @characterID, @player, @name, @baseSTR, @baseCON, @baseDEX, @baseINT, @baseWIS, @baseCHA,
                         @background, @age, @height , @weight,
                         @race, @subClass,  @trade, @Title, @SkillPoints, @EXP, @TNL ,
                         @Personality, @Origin , @Languages
@@ -27,7 +27,7 @@ class CharacterModel {
             `;
             const addCharacterStmt = db.prepare(sql);
             
-            Character.CharacterID = uuidV4();
+            Character.characterID = uuidV4();
             // attempt to add them to the database
             addCharacterStmt.run(Character);
             return true;
@@ -36,7 +36,45 @@ class CharacterModel {
             return false;        // return false to indicate failure
         }
     }
+
+    getCharacter (characterID) {
+        try {
+            const sql = `
+                SELECT 
+                    characterID, player, name, baseSTR, baseCON, baseDEX, baseINT, baseWIS, baseCHA,
+                    background, age, height , weight,
+                    race, subClass,  trade, Title, SkillPoints, EXP, TNL,
+                    Personality, Origin  , Languages 
+                FROM
+                    Characters
+                WHERE
+                    characterID=@characterID
+            `;
+            db.prepare(sql).get({characterID});
+            return true;
+        } catch (err) {          // if there was any error
+            console.error(err);  // then log it
+            return false;        // return false to indicate failure
+        }
+    }
+    getCharacters (player) {
+        try {
+            const sql = `
+                SELECT *
+                FROM Characters
+                WHERE player=@player
+            `;
+            const getAllCharactersStmt = db.prepare(sql);
+            
+            return getAllCharactersStmt.all({player});
+        } catch (err) {          // if there was any error
+            console.error(err);  // then log it
+            return [];        // return false to indicate failure
+        }
+    }
 }
+
+
 
 const characterModel = new CharacterModel(db);
 exports.characterModel = new CharacterModel(db);

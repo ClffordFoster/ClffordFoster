@@ -425,7 +425,7 @@ CREATE TABLE IF NOT EXISTS Characters (
 
 
 CREATE TABLE IF NOT EXISTS Skills(
-    characterID TEXT,
+    character TEXT,
     skillID TEXT PRIMARY KEY,
     skillName TEXT,
     skillDescription TEXT, 
@@ -435,33 +435,16 @@ CREATE TABLE IF NOT EXISTS Skills(
 );
 
 CREATE TABLE IF NOT EXISTS Perks(
-    characterID TEXT,
+    character TEXT,
     perkID TEXT PRIMARY KEY,
     perkName TEXT, 
     perkCatergory Text,
     perkDiscription TEXT,
-    --Bonus
-    strBonus INTEGER DEFAULT 0,
-    conBonus INTEGER DEFAULT 0,
-    dexBonus INTEGER DEFAULT 0,
-    chaBonus INTEGER DEFAULT 0,
-    intBonus INTEGER DEFAULT 0,
-    wisBonus INTEGER DEFAULT 0,
-    hpBonus INTEGER DEFAULT 0,
-    spBonus  INTEGER DEFAULT 0,
-    mpBonus INTEGER DEFAULT 0,
-    speedBonus INTEGER DEFAULT 0,
-    poiseBonus INTEGER DEFAULT 0,
-    perceptionBonus INTEGER DEFAULT 0,
-    armBonus INTEGER DEFAULT 0,
-    evaBonus INTEGER DEFAULT 0, 
-    tghBonus INTEGER DEFAULT 0, 
-    drBonus INTEGER DEFAULT 0,
-    FOREIGN KEY (characterID) REFERENCES Characters(characterID)  
+    FOREIGN KEY (character) REFERENCES Characters(characterID)  
 );
 
 CREATE TABLE IF NOT EXISTS Items(
-    characterID TEXT,
+    character TEXT,
     itemID TEXT PRIMARY KEY,
     itemName TEXT NOT NULL,
     itemCategory TEXT NOT NULL,
@@ -484,7 +467,7 @@ CREATE TABLE IF NOT EXISTS Items(
     evaBonus INTEGER DEFAULT 0, 
     tghBonus INTEGER DEFAULT 0, 
     drBonus INTEGER DEFAULT 0,
-    FOREIGN KEY (characterID) REFERENCES Characters(characterID)  
+    FOREIGN KEY (character) REFERENCES Characters(characterID)  
 );
 
 CREATE TABLE IF NOT EXISTS INVENTORY(

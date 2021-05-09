@@ -53,7 +53,19 @@ app.get('/register', (req,res) =>{
 });
 
 app.get('/character', (req,res) =>{
+	if (!req.session.isLoggedIn){
+		return res.redirect('/login')
+	}
 	res.render('character.ejs');
+});
+
+app.get('/characters', (req,res) =>{
+	if (!req.session.isLoggedIn){
+		return res.redirect('/login')
+	}
+	const characters = characterModel.getCharacters(req.session.playerID)
+	//console.log(characters)
+	res.render('characters.ejs', {characters});
 });
 
 app.get('/hero', (req,res) =>{
@@ -61,6 +73,13 @@ app.get('/hero', (req,res) =>{
 		return res.redirect('/login')
 	}
 	res.render('hero.ejs')
+});
+
+app.get('/skills', (req,res) =>{
+	if (!req.session.isLoggedIn){
+		return res.redirect('/login')
+	}
+	res.render('skills.ejs');
 });
 
 
@@ -218,13 +237,13 @@ app.post("/createCharacter", async (req, res) => {
 
 });
 
-app.post("/createSkill", async (req,res) =>{
+app.post("/createSkill/:characterID", async (req,res) =>{
 	console.log("/createSkill");
 	let{skillName,skillDescription,skillLevel,skillCategory } = req.body
-		try{
+	const {characterID} = req.params
+	try{
 			let skillAdded = skillsModel.createSkill({
-				skillName,skillDescription,skillLevel,skillCategory,
-				player: req.session.playerID 
+				skillName,skillDescription,skillLevel,skillCategory, character: characterID
 			});
 			if (skillAdded) {
 				return res.sendStatus(200); // 200 OK
