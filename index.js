@@ -237,6 +237,16 @@ app.post("/createCharacter", async (req, res) => {
 
 });
 
+app.post("/selectCharacters", async ( req,res) => {
+	try{
+		req.session.characterID = req.body.characterSelectionForm;
+		return res.redirect("/character");
+	} catch (err){
+		console.error(err);
+		return res.sendStatus(500);
+	}
+});
+
 app.post("/createSkill/:characterID", async (req,res) =>{
 	console.log("/createSkill");
 	let{skillName,skillDescription,skillLevel,skillCategory } = req.body

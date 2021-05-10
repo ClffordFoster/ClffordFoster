@@ -2,22 +2,21 @@
 <html lang="en">
 <head>
     <title>Characters</title>
-    <script src="/js/characters.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/style.css" rel="stylesheet">         
 </head>
 <body>
     <label>Choose a character:
-    <select id=“characterSelection” onchange="javascript:this.form.submit()">
-        <% for(const character of characters) { %>
-            <option value="<%=character.characterID%>"> <%= character.name %> </option>
-        <% } %>
-    </select>
+    <form action="/selectCharacters" method="POST">
+        <select id="characterSelection" name="characterSelectionForm" >
+            <% for(const character of characters) { %>
+                <option value="<%=character.characterID%>"> <%= character.name %> </option>
+            <% } %>
+        </select>
+        <button type = "submit">submit</button>
+    </form>
     </label>
-    <button class= "submit"
-    > submit
-    </button>
 </body>
 
     
