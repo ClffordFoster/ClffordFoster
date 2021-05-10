@@ -247,13 +247,12 @@ app.post("/selectCharacters", async ( req,res) => {
 	}
 });
 
-app.post("/createSkill/:characterID", async (req,res) =>{
+app.post("/createSkill", async (req,res) =>{
 	console.log("/createSkill");
-	let{skillName,skillDescription,skillLevel,skillCategory } = req.body
-	const {characterID} = req.params
+	const {skillName,skillDescription,skillLevel,skillCategory } = req.body
 	try{
-			let skillAdded = skillsModel.createSkill({
-				skillName,skillDescription,skillLevel,skillCategory, character: characterID
+			const skillAdded = skillsModel.createSkill({
+				skillName,skillDescription,skillLevel,skillCategory, character: req.session.characterID
 			});
 			if (skillAdded) {
 				return res.sendStatus(200); // 200 OK

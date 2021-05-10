@@ -8,7 +8,7 @@ class SkillsModel {
         this.db = db;
     }
 
-    createSkill (Skill) {
+    createSkill (skill) {
         try {
             const sql = `
                 INSERT INTO Skills 
@@ -18,9 +18,9 @@ class SkillsModel {
             `;
             const addSkillsStmt = db.prepare(sql);
             
-            Skill.skillID = uuidV4();
+            skill.skillID = uuidV4();
             // attempt to add them to the database
-            addSkillsStmt.run(Skills);
+            addSkillsStmt.run(skill);
             return true;
         } catch (err) {          // if there was any error
             console.error(err);  // then log it
@@ -28,3 +28,6 @@ class SkillsModel {
         }
     }
 }
+
+const skillsModel = new SkillsModel(db);
+exports.skillsModel = new SkillsModel(db);
